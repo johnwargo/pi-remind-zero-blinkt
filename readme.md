@@ -5,7 +5,19 @@ PI-REMIND-ZERO-BLINKT
 
 [Assembly](https://learn.pimoroni.com/tutorial/sandyj/pibow-zero-assembly)
 
-https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-blinkt
+[https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-blinkt](https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-blinkt)
+
+
+	curl -sS get.pimoroni.com/blinkt | bash
+
+Now, install the [Google Calendar API Python files](https://developers.google.com/api-client-library/python/start/installation) along with some other libraries using the following command:
+
+    sudo pip install --upgrade google-api-python-client python-dateutil pytz httplib2 oauth2client
+
+this.
+
+	python ./remind.py
+
 
 ## Update History
 

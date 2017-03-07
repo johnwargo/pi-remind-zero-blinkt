@@ -7,7 +7,7 @@
     This application connects to a Google Calendar and determines whether there are any appointments in the next
     few minutes and flashes some LEDs if there are. The project uses a Raspberry Pi Zero W device with a Pimoroni
     Blinkt LED Display board to display an obnoxious reminder every minute, changing color at 10 minutes (WHITE),
-    5 minutes (YELLOW) and 2 minutes (multi-color swirl).
+    5 minutes (YELLOW) and 2 minutes (RED?).
 
     Google Calendar example code: https://developers.google.com/google-apps/calendar/quickstart/python
     Unicorn HAT example code: https://github.com/pimoroni/unicorn-hat/tree/master/python/examples
@@ -15,30 +15,25 @@
 
 from __future__ import print_function
 
-import colorsys
 import datetime
-import math
 import os
 import sys
 import time
 
 import httplib2
-import numpy as np
 import oauth2client
 import pytz
-from blinkt import set_pixel, show
 from apiclient import discovery
+from blinkt import set_all, set_clear_on_exit, set_pixel, show
 from dateutil import parser
 from oauth2client import client
 from oauth2client import tools
 
-# set_pixel(0,255,0,0)
-# show()
-
+# clears the LEDs when the application closes
+set_clear_on_exit()
 
 try:
     import argparse
-
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
@@ -64,11 +59,71 @@ BLUE = (0, 0, 255)
 ORANGE = (255, 153, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
+BLACK = (0, 0, 0)
 
 # constants used in the app to display status
 CHECKING_COLOR = BLUE
 SUCCESS_COLOR = GREEN
 FAILURE_COLOR = RED
+
+
+def all_off():
+    set_all(0, 0, 0)
+    show()
+
+
+def all_on(color):
+    set_all(color[0], color[1], color[2])
+    show()
+
+
+def flash_up(color, delay):
+    time.sleep(delay)
+    for y in range(8):
+        set_pixel(y, color[0], color[1], color[2])
+        show()
+        time.sleep(delay)
+
+
+def flash_down(color, delay):
+    for y in range(8):
+        set_pixel(7 - y, color[0], color[1], color[2])
+        show()
+        time.sleep(delay)
+
+
+def zip_zip(color, delay):
+    for y in range(4):
+        set_pixel(y, color[0], color[1], color[2])
+        set_pixel(7 - y, color[0], color[1], color[2])
+        show()
+        time.sleep(delay)
+    for y in range(4):
+        set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
+        set_pixel(7 - y, BLACK[0], BLACK[1], BLACK[2])
+        show()
+        time.sleep(delay)
+
+
+def up_down(color, delay):
+    for y in range(8):
+        set_pixel(7 - y, color[0], color[1], color[2])
+        show()
+        time.sleep(delay)
+    for y in range(8):
+        set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
+        show()
+        time.sleep(delay)
+
+
+def flash(flash_count, delay, color):
+    # light all of the LEDs in a RGB single color. Repeat 'flash_count' times
+    # keep illuminated for 'delay' value
+    for index in range(flash_count):
+        all_on(color)
+        time.sleep(delay)
+        all_off()
+        time.sleep(delay)
 
 
 def set_activity_light(color, increment):
@@ -77,7 +132,7 @@ def set_activity_light(color, increment):
     # are still working.
     global current_activity_light
     # turn off (clear) any lights that are on
-    lights.off()
+    all_off()
     if increment:
         # OK. Which light will we be illuminating?
         if current_activity_light < 1:
@@ -86,42 +141,9 @@ def set_activity_light(color, increment):
         # increment the current light (to the next one)
         current_activity_light -= 1
     # set the pixel color
-    lights.set_pixel(current_activity_light, 0, color[0], color[1], color[2])
+    set_pixel(current_activity_light, color[0], color[1], color[2])
     # show the pixel
-    lights.show()
-
-
-def flash_all(flash_count, delay, color):
-    # light all of the LEDs in a RGB single color. Repeat 'flash_count' times
-    # keep illuminated for 'delay' value
-    for index in range(flash_count):
-        for y in range(8):
-            for x in range(8):
-                lights.set_pixel(x, y, color[0], color[1], color[2])
-        lights.show()
-        time.sleep(delay)
-        lights.off()
-        time.sleep(delay)
-
-
-def flash_random(flash_count, delay):
-    # Copied from https://github.com/pimoroni/unicorn-hat/blob/master/python/examples/random_blinky.py
-    for index in range(flash_count):
-        rand_mat = np.random.rand(8, 8)
-        for y in range(8):
-            for x in range(8):
-                h = 0.1 * rand_mat[x, y]
-                s = 0.8
-                v = rand_mat[x, y]
-                rgb = colorsys.hsv_to_rgb(h, s, v)
-                r = int(rgb[0] * 255.0)
-                g = int(rgb[1] * 255.0)
-                b = int(rgb[2] * 255.0)
-                lights.set_pixel(x, y, r, g, b)
-        lights.show()
-        time.sleep(delay)
-        lights.off()
-        time.sleep(delay)
+    show()
 
 
 def get_credentials():
@@ -223,7 +245,7 @@ def get_next_event(search_limit):
         # not much else we can do here except to skip this attempt and try again later
         print('Error connecting to calendar:', sys.exc_info()[0], '\n')
         # light up the array with FAILURE_COLOR LEDs to indicate a problem
-        flash_all(1, 2, FAILURE_COLOR)
+        flash(1, 2, FAILURE_COLOR)
         # now set the current_activity_light to FAILURE_COLOR to indicate an error state
         # with the last reading
         set_activity_light(FAILURE_COLOR, False)
@@ -263,27 +285,23 @@ def main():
                 # is the appointment between 10 and 5 minutes from now?
                 if num_minutes >= FIRST_THRESHOLD:
                     # Flash the lights in WHITE
-                    flash_all(1, 0.25, WHITE)
+                    flash(1, 0.25, WHITE)
                     # set the activity light to WHITE as an indicator
                     set_activity_light(WHITE, False)
                 # is the appointment less than 5 minutes but more than 2 minutes from now?
                 elif num_minutes > SECOND_THRESHOLD:
                     # Flash the lights YELLOW
-                    flash_all(2, 0.25, YELLOW)
+                    flash(2, 0.25, YELLOW)
                     # set the activity light to YELLOw as an indicator
                     set_activity_light(YELLOW, False)
                 # hmmm, less than 2 minutes, almost time to start!
                 else:
-                    # swirl the lights. Longer every second closer to start time
-                    do_swirl(int((4 - num_minutes) * 100))
+                    zip_zip(ORANGE, int((4 - num_minutes) * 100))
                     # set the activity light to SUCCESS_COLOR (green by default)
                     set_activity_light(ORANGE, False)
         # wait a second then check again
         # You can always increase the sleep value below to check less often
         time.sleep(1)
-
-    # this should never happen since the above is an infinite loop
-    print('Leaving main()')
 
 
 # now tell the user what we're doing...
@@ -298,14 +316,10 @@ print(HASHES)
 # The current_activity_light variable keeps track of which light lit last. At start it's at -1 and goes from there.
 current_activity_light = 8
 
-# Set a specific brightness level for the Pimoroni Unicorn HAT, otherwise it's pretty bright.
-# Comment out the line below to see what the default looks like.
-lights.brightness(0.75)
-
 # flash some random LEDs just for fun...
-flash_random(5, 0.1)
+zip_zip(GREEN, 0.1)
 # blink all the LEDs GREEN to let the user know the hardware is working
-flash_all(1, 1, GREEN)
+flash(1, 1, GREEN)
 
 # Initialize the Google Calendar API stuff
 credentials = get_credentials()
