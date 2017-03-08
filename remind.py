@@ -308,7 +308,7 @@ print(HASHES)
 
 print("Setting Blinkt settings")
 # set LED brightness to half
-lights.set_brightness(0.5)
+lights.set_brightness(0.25)
 # clears the LEDs when the application closes
 lights.set_clear_on_exit()
 
