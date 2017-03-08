@@ -2,9 +2,9 @@
 
 I often get distracted by what I'm working on, and miss reminders from Google Calendar on my desktop or laptop PCs. To help me avoid missing meetings, I created the Pi Reminder project, a visual notifier that uses the Raspberry Pi, the Pimoroni Unicorn HAT and the Google Calendar API to remind me when I have upcoming appointments. The folks at Make Magazine published the original version of the article as [*Get a Flashing Meeting Reminder with a Raspberry Pi*](http://makezine.com/projects/get-a-flashing-meeting-reminder-with-a-raspberry-pi/), and I later published an article about the project on [johnwargo.com](http://johnwargo.com/microcontrollers-single-board-computers/raspberry-pi-reminder-project.html). The completed project's been sitting on my desk for months, quietly reminding me of my Google Calendar appointments throughout the day.
 
-The Repository contains the project code for the Pi Zero W/Blinkt version of the Pi Reminder project.
-
 With the announcement of the [Raspberry Pi Zero W](https://www.raspberrypi.org/blog/raspberry-pi-zero-w-joins-family/), I knew I had an opportunity to create a much smaller version of the Pi Reminder project. I used a Raspberry Pi 3 for the original project because I needed an built-in Internet connection for the project. I ended up using a wired connection, but could have used the built-in Wi-Fi connection instead. With the new Pi Zero W, I had everything I needed in a smaller package. Immediately after the announcement, I poked around on the Internet looking for a way to buy one. Adafruit, and the other US distributors wouldn't have any for quite a while (it took me 5 months to get a Pi Zero in the US after it launched), so I looked in the UK and found the Pimoroni [Pi Zero W Starter Kit](https://shop.pimoroni.com/products/pi-zero-w-starter-kit) which seemed just right for this project. I ordered one and it made it across the US in about a week. The kit includes the Pi, a case and the Blinkt LED board, all I needed to add was a power supply. 
+
+The repository contains the project code for the Pi Zero W/Blinkt version of the Pi Reminder project.
 
 ## Hardware Components
 
