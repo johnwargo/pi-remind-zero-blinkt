@@ -1,4 +1,4 @@
-PI-REMIND-ZERO-BLINKT
+
 =====================
 
 [https://shop.pimoroni.com/products/pi-zero-w-starter-kit](https://shop.pimoroni.com/products/pi-zero-w-starter-kit)

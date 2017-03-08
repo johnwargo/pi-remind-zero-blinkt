@@ -20,17 +20,14 @@ import os
 import sys
 import time
 
+import blinkt as lights
 import httplib2
 import oauth2client
 import pytz
 from apiclient import discovery
-from blinkt import set_all, set_clear_on_exit, set_pixel, show
 from dateutil import parser
 from oauth2client import client
 from oauth2client import tools
-
-# clears the LEDs when the application closes
-set_clear_on_exit()
 
 try:
     import argparse
@@ -69,36 +66,36 @@ FAILURE_COLOR = RED
 
 
 def all_off():
-    set_all(0, 0, 0)
-    show()
+    lights.set_all(0, 0, 0)
+    lights.show()
 
 
 def all_on(color):
-    set_all(color[0], color[1], color[2])
-    show()
+    lights.set_all(color[0], color[1], color[2])
+    lights.show()
 
 
 def zip_zip(color, delay):
     for y in range(4):
-        set_pixel(y, color[0], color[1], color[2])
-        set_pixel(7 - y, color[0], color[1], color[2])
-        show()
+        lights.set_pixel(y, color[0], color[1], color[2])
+        lights.set_pixel(7 - y, color[0], color[1], color[2])
+        lights.show()
         time.sleep(delay)
     for y in range(4):
-        set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
-        set_pixel(7 - y, BLACK[0], BLACK[1], BLACK[2])
-        show()
+        lights.set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
+        lights.set_pixel(7 - y, BLACK[0], BLACK[1], BLACK[2])
+        lights.show()
         time.sleep(delay)
 
 
 def up_down(color, delay):
     for y in range(8):
-        set_pixel(7 - y, color[0], color[1], color[2])
-        show()
+        lights.set_pixel(7 - y, color[0], color[1], color[2])
+        lights.show()
         time.sleep(delay)
     for y in range(8):
-        set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
-        show()
+        lights.set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
+        lights.show()
         time.sleep(delay)
 
 
@@ -127,9 +124,9 @@ def set_activity_light(color, increment):
         # increment the current light (to the next one)
         current_activity_light -= 1
     # set the pixel color
-    set_pixel(current_activity_light, color[0], color[1], color[2])
+    lights.set_pixel(current_activity_light, color[0], color[1], color[2])
     # show the pixel
-    show()
+    lights.show()
 
 
 def get_credentials():
@@ -296,6 +293,12 @@ print(HASHES)
 print(HASH, 'Pi Remind (Zero W & Blinkt)         ', HASH)
 print(HASH, 'By John M. Wargo (www.johnwargo.com)', HASH)
 print(HASHES)
+
+print("Setting Blinkt settings")
+# set LED brightness to half
+lights.set_brightness(0.5)
+# clears the LEDs when the application closes
+lights.set_clear_on_exit()
 
 # The app flashes a GREEN light in the first row every time it connects to Google to check the calendar.
 # The LED increments every time until it gets to the other side then starts over at the beginning again.
