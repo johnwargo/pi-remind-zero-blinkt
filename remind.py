@@ -34,6 +34,7 @@ set_clear_on_exit()
 
 try:
     import argparse
+
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
@@ -75,21 +76,6 @@ def all_off():
 def all_on(color):
     set_all(color[0], color[1], color[2])
     show()
-
-
-def flash_up(color, delay):
-    time.sleep(delay)
-    for y in range(8):
-        set_pixel(y, color[0], color[1], color[2])
-        show()
-        time.sleep(delay)
-
-
-def flash_down(color, delay):
-    for y in range(8):
-        set_pixel(7 - y, color[0], color[1], color[2])
-        show()
-        time.sleep(delay)
 
 
 def zip_zip(color, delay):
@@ -292,12 +278,12 @@ def main():
                 elif num_minutes > SECOND_THRESHOLD:
                     # Flash the lights YELLOW
                     flash(2, 0.25, YELLOW)
-                    # set the activity light to YELLOw as an indicator
+                    # set the activity light to YELLOW as an indicator
                     set_activity_light(YELLOW, False)
                 # hmmm, less than 2 minutes, almost time to start!
                 else:
                     zip_zip(ORANGE, int((4 - num_minutes) * 100))
-                    # set the activity light to SUCCESS_COLOR (green by default)
+                    # set the activity light
                     set_activity_light(ORANGE, False)
         # wait a second then check again
         # You can always increase the sleep value below to check less often
@@ -307,7 +293,7 @@ def main():
 # now tell the user what we're doing...
 print('\n')
 print(HASHES)
-print(HASH, 'Pi Remind                           ', HASH)
+print(HASH, 'Pi Remind (Zero W & Blinkt)         ', HASH)
 print(HASH, 'By John M. Wargo (www.johnwargo.com)', HASH)
 print(HASHES)
 
