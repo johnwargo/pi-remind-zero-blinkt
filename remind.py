@@ -17,6 +17,7 @@ from __future__ import print_function
 
 import datetime
 import os
+import random
 import sys
 import time
 
@@ -54,7 +55,7 @@ SECOND_THRESHOLD = 2  # minutes, YELLOW lights before this
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
-ORANGE = (255, 153, 0)
+ORANGE = (255, 127, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 BLACK = (0, 0, 0)
@@ -75,30 +76,6 @@ def all_on(color):
     lights.show()
 
 
-def zip_zip(color, delay):
-    for y in range(4):
-        lights.set_pixel(y, color[0], color[1], color[2])
-        lights.set_pixel(7 - y, color[0], color[1], color[2])
-        lights.show()
-        time.sleep(delay)
-    for y in range(4):
-        lights.set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
-        lights.set_pixel(7 - y, BLACK[0], BLACK[1], BLACK[2])
-        lights.show()
-        time.sleep(delay)
-
-
-def up_down(color, delay):
-    for y in range(8):
-        lights.set_pixel(7 - y, color[0], color[1], color[2])
-        lights.show()
-        time.sleep(delay)
-    for y in range(8):
-        lights.set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
-        lights.show()
-        time.sleep(delay)
-
-
 def flash(flash_count, delay, color):
     # light all of the LEDs in a RGB single color. Repeat 'flash_count' times
     # keep illuminated for 'delay' value
@@ -107,6 +84,41 @@ def flash(flash_count, delay, color):
         time.sleep(delay)
         all_off()
         time.sleep(delay)
+
+
+def do_random(flash_count, delay):
+    for index in range(flash_count):
+        for i in range(8):
+            lights.set_pixel(i, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        lights.show()
+        time.sleep(delay)
+
+
+def zip_zip(flash_count, color):
+    all_off()
+    for index in range(flash_count):
+        for y in range(4):
+            lights.set_pixel(y, color[0], color[1], color[2])
+            lights.set_pixel(7 - y, color[0], color[1], color[2])
+            lights.show()
+            time.sleep(.1)
+        for y in range(4):
+            lights.set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
+            lights.set_pixel(7 - y, BLACK[0], BLACK[1], BLACK[2])
+            lights.show()
+            time.sleep(.1)
+
+
+# def up_down(color, delay):
+#     # An interesting pattern, I decided not to use it
+#     for y in range(8):
+#         lights.set_pixel(7 - y, color[0], color[1], color[2])
+#         lights.show()
+#         time.sleep(delay)
+#     for y in range(8):
+#         lights.set_pixel(y, BLACK[0], BLACK[1], BLACK[2])
+#         lights.show()
+#         time.sleep(delay)
 
 
 def set_activity_light(color, increment):
@@ -264,7 +276,7 @@ def main():
                 if num_minutes != 1:
                     print('Starts in', int(num_minutes), 'minutes\n')
                 else:
-                    print('Starts in 1.0 minute\n')
+                    print('Starts in 1 minute\n')
                 # is the appointment between 10 and 5 minutes from now?
                 if num_minutes >= FIRST_THRESHOLD:
                     # Flash the lights in WHITE
@@ -279,11 +291,11 @@ def main():
                     set_activity_light(YELLOW, False)
                 # hmmm, less than 2 minutes, almost time to start!
                 else:
-                    zip_zip(ORANGE, int((4 - num_minutes) * 100))
+                    # flash the lights in random colors
+                    do_random(int(4 - num_minutes) * 2, .5)
                     # set the activity light
                     set_activity_light(ORANGE, False)
         # wait a second then check again
-        # You can always increase the sleep value below to check less often
         time.sleep(1)
 
 
@@ -305,10 +317,11 @@ lights.set_clear_on_exit()
 # The current_activity_light variable keeps track of which light lit last. At start it's at -1 and goes from there.
 current_activity_light = 8
 
-# flash some random LEDs just for fun...
-zip_zip(GREEN, 0.1)
-# blink all the LEDs GREEN to let the user know the hardware is working
-flash(1, 1, GREEN)
+# flash some LEDs just for fun...
+# lets the user know the hardware is working
+zip_zip(1, RED)
+zip_zip(1, GREEN)
+zip_zip(1, BLUE)
 
 # Initialize the Google Calendar API stuff
 credentials = get_credentials()
