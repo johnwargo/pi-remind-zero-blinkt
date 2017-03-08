@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 
 =====================
+=======
+# Raspberry Pi Reminder (Pi Zero W and Blinkt Version)
 
-[https://shop.pimoroni.com/products/pi-zero-w-starter-kit](https://shop.pimoroni.com/products/pi-zero-w-starter-kit)
+I often get distracted by what I'm working on, and miss reminders from Google Calendar. To help me avoid missing meetings, I created the Pi Reminder project, a visual notifier that uses the Raspberry Pi, the Pimoroni Unicorn HAT and the Google Calendar API. I wrote about the project on [johnwargo.com](http://johnwargo.com/microcontrollers-single-board-computers/raspberry-pi-reminder-project.html) and the folks at Make Magazine published a version of the article as [*Get a Flashing Meeting Reminder with a Raspberry Pi*](http://makezine.com/projects/get-a-flashing-meeting-reminder-with-a-raspberry-pi/). The project's been sitting on my desk for months, quietly reminding me of my appointments throughout the day.
+
+With the announcement of the [Raspberry Pi Zero W](https://www.raspberrypi.org/blog/raspberry-pi-zero-w-joins-family/), I knew I had an opportunity to create a much smaller version of the Pi Reminder project. I used a Raspberry Pi 3 for the original project because I wanted a bright display and needed an Internet connection. But with the Pi Zero W, I had everything I needed. Immediately after the announcement, I poked around on the Internet looking for a way to buy one. Adafruit, and the other US distributors wouldn't have any for quite a while (it took me 5 months to get a Pi Zero in the US after it launched), so I looked in the UK and found the Pimoroni [Pi Zero W Starter Kit](https://shop.pimoroni.com/products/pi-zero-w-starter-kit) which seemed just right for this project. The kit includes the Pi, a case and the Blinkt LED board. 
+
+The Repository contains the project code for the Pi Zero W/Blinkt version of the Pi Reminder project.
+>>>>>>> 85c79a7c71e4050abdb1548748e95dd477d7c376
+
 
 [Assembly](https://learn.pimoroni.com/tutorial/sandyj/pibow-zero-assembly)
 
