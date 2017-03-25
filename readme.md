@@ -108,9 +108,11 @@ Now, install the [Google Calendar API Python files](https://developers.google.co
 
 With everything in place, in the terminal window pointing to the `Pi-Remind-Zero-Blinkt` folder, execute the reminder app using the following command:
 
-    python ./remind.py
+    sudo python ./remind.py
 
-The application will launch, validate its configuration and warn you that there's additional configuration that must be completed.
+> **Note**: We're running the application here using `sudo` because later, when you configure the app to run at startup, it will run as `root`, so the configuration that happens next must also be done as `root` otherwise it won't work.
+
+The application will launch, validate its configuration and warn you that there's additional configuration that must be completed. 
 
 ![Starting the reminder app](screenshots/figure-01.png)
 
@@ -134,7 +136,7 @@ With authorization in place, the app will begin checking your calendar every min
 
 ![The Pi Reminder application in action](screenshots/figure-06.png)
 
-> **Note**: if you ever change Google calendars (from a work to a personal calendar or from one work calendar profile to another) you'll need to whack the existing access token created during the initial startup or the Pi Reminder app. Instructions for deleting this token are available on [johnwargo.com](http://www.johnwargo.com/index.php/microcontrollers-single-board-computers/pi-reminder-%E2%80%93-delete-google-calendar-access-authorization-token.html).
+> **Note**: if you ever change Google calendars (from a work to a personal calendar or from one work calendar profile to another) you'll need to whack the existing access token created during the initial startup of the Pi Reminder app. Instructions for deleting this token are available on [johnwargo.com](http://www.johnwargo.com/index.php/microcontrollers-single-board-computers/pi-reminder-%E2%80%93-delete-google-calendar-access-authorization-token.html).
 
 ## Starting The Project's Application's Automatically
 
