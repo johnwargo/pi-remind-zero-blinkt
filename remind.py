@@ -306,16 +306,16 @@ print(HASH, 'Pi Remind (Zero W & Blinkt)         ', HASH)
 print(HASH, 'By John M. Wargo (www.johnwargo.com)', HASH)
 print(HASHES)
 
+# Initialize the Google Calendar API stuff
+credentials = get_credentials()
+http = credentials.authorize(httplib2.Http())
+service = discovery.build('calendar', 'v3', http=http)
+
 print("Setting Blinkt settings")
 # set LED brightness to half
 lights.set_brightness(0.25)
 # clears the LEDs when the application closes
 lights.set_clear_on_exit()
-
-# The app flashes a GREEN light in the first row every time it connects to Google to check the calendar.
-# The LED increments every time until it gets to the other side then starts over at the beginning again.
-# The current_activity_light variable keeps track of which light lit last. At start it's at -1 and goes from there.
-current_activity_light = 8
 
 # flash some LEDs just for fun...
 # lets the user know the hardware is working
@@ -323,10 +323,11 @@ zip_zip(1, RED)
 zip_zip(1, GREEN)
 zip_zip(1, BLUE)
 
-# Initialize the Google Calendar API stuff
-credentials = get_credentials()
-http = credentials.authorize(httplib2.Http())
-service = discovery.build('calendar', 'v3', http=http)
+# The app flashes a GREEN light in the first row every time it connects to Google to check the calendar.
+# The LED increments every time until it gets to the other side then starts over at the beginning again.
+# The current_activity_light variable keeps track of which light lit last. At start it's at -1 and goes from there.
+current_activity_light = 8
+set_activity_light(SUCCESS_COLOR, True)
 
 print('\nApplication initialized\n')
 
