@@ -136,7 +136,7 @@ With authorization in place, the app will begin checking your calendar every min
 
 ![The Pi Reminder application in action](screenshots/figure-06.png)
 
-> **Note**: if you ever change Google calendars (from a work to a personal calendar or from one work calendar profile to another) you'll need to whack the existing access token created during the initial startup of the Pi Reminder app. Instructions for deleting this token are available on [johnwargo.com](http://www.johnwargo.com/index.php/microcontrollers-single-board-computers/pi-reminder-%E2%80%93-delete-google-calendar-access-authorization-token.html).
+> **Note**: if you ever change Google calendars (from a work to a personal calendar or from one work calendar profile to another) you'll need to whack the existing access token created during the initial startup of the Pi Reminder app. Instructions for deleting this token are available on [johnwargo.com](https://johnwargo.com/internet-of-things-iot/pi-reminder-%E2%80%93-delete-google-calendar-access-authorization-token.html).
 
 ## Starting The Project's Application's Automatically
 
