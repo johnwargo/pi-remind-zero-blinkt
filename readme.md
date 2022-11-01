@@ -75,7 +75,7 @@ The first command updates the local software repositories and the second command
 
 Now, install the Blinkt! Python libraries and example applications by executing the following command:
 
-	curl -sS get.pimoroni.com/blinkt | bash
+	curl https://get.pimoroni.com/blinkt | bash
 
 Next, download the project source code; in the terminal window, execute the following command:
 
